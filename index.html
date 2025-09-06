@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Showcase Maximum</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: #000;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* Intro */
+    #intro {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      cursor: pointer;
+      transition: opacity 0.8s ease;
+    }
+
+    #intro h1 {
+      font-size: 2.8rem;
+      text-shadow: 0 0 40px #fff, 0 0 80px #fff;
+      animation: blink 1.5s infinite alternate;
+    }
+
+    @keyframes blink {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
+
+    /* Container */
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 120px;
+      align-items: center;
+      height: 100vh;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .container.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Profile */
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .pfp {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      object-fit: cover;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      box-shadow: 0 0 40px rgba(255,255,255,0.4);
+    }
+
+    .pfp:hover {
+      transform: scale(1.3);
+      box-shadow: 0 0 80px #fff, 0 0 120px #fff;
+    }
+
+    .username {
+      margin-top: 20px;
+      font-size: 1.8em;
+      font-weight: bold;
+      text-transform: lowercase;
+      text-shadow: 0 0 20px #fff, 0 0 40px #fff;
+      transition: transform 0.5s ease;
+    }
+
+    .username:hover {
+      transform: scale(1.15);
+      text-shadow: 0 0 40px #fff, 0 0 80px #fff;
+    }
+
+    /* Telegram Logo */
+    .telegram {
+      margin-top: 15px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 25px #fff, 0 0 50px #fff;
+      animation: pulseBtn 2s infinite ease-in-out;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .telegram img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    @keyframes pulseBtn {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .telegram:hover {
+      transform: scale(1.4);
+      box-shadow: 0 0 60px #fff, 0 0 100px #fff;
+    }
+
+    /* Particles */
+    .particle {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: white;
+      border-radius: 50%;
+      animation: float 15s linear infinite;
+      opacity: 0.4;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh) scale(0.5); opacity: 1; }
+      to { transform: translateY(-10vh) scale(2); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div id="intro">
+    <h1>are you sure...</h1>
+  </div>
+
+  
+  <script>
+    for (let i = 0; i < 120; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.top = Math.random() * 100 + 'vh';
+      particle.style.animationDuration = (8 + Math.random() * 12) + 's';
+      particle.style.transform = `scale(${Math.random() * 2})`;
+      document.body.appendChild(particle);
+    }
+  </script>
+
+  <!-- Profiles -->
+  <div class="container" id="main">
+    <div class="profile">
+      <img class="pfp" src="https://f.top4top.io/p_3530i2dh91.jpg" alt="flin" />
+      <div class="username">flin</div>
+      <a href="https://t.me/hxrmlol" target="_blank">
+        <div class="telegram">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+        </div>
+      </a>
+    </div>
+
+    <div class="profile">
+      <img class="pfp" src="https://a.top4top.io/p_3530u4nmr1.jpg" alt="vantixt" />
+      <div class="username">vantixt</div>
+      <a href="https://t.me/heavencircle" target="_blank">
+        <div class="telegram">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+        </div>
+      </a>
+    </div>
+
+    <div class="profile">
+      <img class="pfp" src="https://h.top4top.io/p_35300ivxz1.jpg" alt="scount" />
+      <div class="username">scount</div>
+      <a href="https://t.me/maunaue" target="_blank">
+        <div class="telegram">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
+        </div>
+      </a>
+    </div>
+  </div>
+
+  
+  <audio id="bg-music" loop>
+    <source src="https://files.catbox.moe/8st39o.mp3" type="audio/mpeg">
+  </audio>
+
+  
+  <script>
+    const intro = document.getElementById('intro');
+    const main = document.getElementById('main');
+    const music = document.getElementById('bg-music');
+    let unlocked = false;
+
+    const start = () => {
+      if (unlocked) return;
+      unlocked = true;
+
+      intro.style.opacity = '0';
+      setTimeout(() => {
+        intro.remove();
+        main.classList.add('show');
+        music.volume = 1;
+        music.play().catch(e => console.warn("Autoplay blockiert:", e));
+      }, 800);
+    };
+
+    window.addEventListener('keydown', start);
+    window.addEventListener('click', start);
+
+    document.addEventListener('click', () => {
+      if (unlocked && music.paused) {
+        music.play().catch(() => {});
+      }
+    });
+  </script>
+
+</body>
+</html>
