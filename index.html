@@ -3,24 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>owners</title>
+  <title>Rich Showcase Ultra</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html, body {
       height: 100%;
-      background: #000;
-      font-family: Arial, sans-serif;
+      font-family: 'Orbitron', sans-serif;
       overflow: hidden;
+      background: #000;
       color: #fff;
     }
 
-    /* Intro */
+    #bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.6) contrast(1.2) saturate(1.3);
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(2px);
+      z-index: 1;
+    }
+
     #intro {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.85);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -28,31 +44,36 @@
       z-index: 9999;
       cursor: pointer;
       transition: opacity 0.8s ease;
+      padding: 20px;
+      text-align: center;
     }
 
     #intro h1 {
-      font-size: 2.8rem;
-      text-shadow: 0 0 40px #fff, 0 0 80px #fff;
-      animation: blink 1.5s infinite alternate;
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 0 0 40px #fff, 0 0 80px #ffd700;
+      animation: glowIntro 2s ease-in-out infinite alternate;
     }
 
-    @keyframes blink {
-      from { opacity: 0.5; }
-      to { opacity: 1; }
+    @keyframes glowIntro {
+      0% { opacity: 0.6; text-shadow: 0 0 20px #ffd700, 0 0 40px #fff; }
+      100% { opacity: 1; text-shadow: 0 0 50px #fff, 0 0 100px #ffd700; }
     }
 
-    /* Container */
     .container {
       display: flex;
       justify-content: center;
-      gap: 120px;
       align-items: center;
       height: 100vh;
+      gap: 80px;
+      position: relative;
+      z-index: 2;
       opacity: 0;
       pointer-events: none;
       transition: opacity 1s ease;
-      position: relative;
-      z-index: 2;
+      flex-wrap: wrap;
+      padding: 20px;
+      overflow-y: auto;
     }
 
     .container.show {
@@ -60,60 +81,119 @@
       pointer-events: auto;
     }
 
-    /* Profile */
-    .profile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .card {
+      position: relative;
+      width: 280px;
+      padding: 25px;
+      border-radius: 25px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      text-align: center;
+      box-shadow: 0 0 30px #fff, 0 0 60px #ffd700;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      margin: 20px;
+      will-change: transform, box-shadow;
+    }
+
+    .card:hover {
+      transform: scale(1.25);
+      box-shadow: 
+        0 0 80px #ffd700,
+        0 0 120px #fff;
+      z-index: 50;
+    }
+
+    .card:hover .pfp {
+      transform: scale(1.25);
+    }
+    .card:hover .name {
+      transform: scale(1.25);
+    }
+    .card:hover .tag {
+      transform: scale(1.5) rotate(10deg);
+    }
+
+    .name-container {
+      position: relative;
+      display: inline-block;
+      width: 100%;
       text-align: center;
     }
 
-    .pfp {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 4px solid #fff;
-      object-fit: cover;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      box-shadow: 0 0 40px rgba(255,255,255,0.4);
-    }
-
-    .pfp:hover {
-      transform: scale(1.3);
-      box-shadow: 0 0 80px #fff, 0 0 120px #fff;
-    }
-
-    .username {
-      margin-top: 20px;
-      font-size: 1.8em;
-      font-weight: bold;
+    .name {
+      font-size: 2.2em;
+      letter-spacing: 2px;
       text-transform: lowercase;
-      text-shadow: 0 0 20px #fff, 0 0 40px #fff;
+      color: #fff;
+      animation: glowText 2s ease-in-out infinite alternate;
+      position: relative;
+      z-index: 1;
+      display: inline-block;
       transition: transform 0.5s ease;
+      will-change: transform;
     }
 
-    .username:hover {
-      transform: scale(1.15);
-      text-shadow: 0 0 40px #fff, 0 0 80px #fff;
+    @keyframes glowText {
+      0% { text-shadow: 0 0 30px #fff, 0 0 60px #ffd700; }
+      100% { text-shadow: 0 0 60px #ffd700, 0 0 120px #fff; }
     }
 
-    /* Telegram Logo */
-    .telegram {
-      margin-top: 15px;
-      width: 70px;
-      height: 70px;
+    .particle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: gold;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 0 25px #fff, 0 0 50px #fff;
-      animation: pulseBtn 2s infinite ease-in-out;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      opacity: 0.9;
+      pointer-events: none;
+      animation: floatParticle linear infinite;
     }
 
-    .telegram img {
+    @keyframes floatParticle {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.9; }
+      50% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 1; }
+      100% { transform: translate(0, 0) scale(1); opacity: 0; }
+    }
+
+    .pfp {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid #ffd700;
+      object-fit: cover;
+      margin-bottom: 15px;
+      box-shadow: 0 0 40px #ffd700, 0 0 70px #fff;
+      transition: transform 0.5s ease;
+      will-change: transform;
+    }
+
+    .quote {
+      font-style: italic;
+      font-size: 1em;
+      margin-bottom: 20px;
+      color: #ffd700;
+      animation: fadeIn 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .tag {
+      display: inline-block;
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      padding: 10px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 0 30px #fff, 0 0 50px #ffd700;
+      animation: pulseBtn 2s infinite;
+      will-change: transform, box-shadow;
+    }
+
+    .tag img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -125,116 +205,165 @@
       100% { transform: scale(1); }
     }
 
-    .telegram:hover {
-      transform: scale(1.4);
-      box-shadow: 0 0 60px #fff, 0 0 100px #fff;
-    }
-
-    /* Particles */
-    .particle {
+    .dollar {
       position: absolute;
-      width: 7px;
-      height: 7px;
-      background: white;
-      border-radius: 50%;
-      animation: float 15s linear infinite;
-      opacity: 0.4;
-      z-index: 0;
+      font-size: 24px;
+      color: #ffd700;
+      user-select: none;
+      animation: fall 5s linear infinite;
+      opacity: 0.8;
     }
 
-    @keyframes float {
-      from { transform: translateY(100vh) scale(0.5); opacity: 1; }
-      to { transform: translateY(-10vh) scale(2); opacity: 0; }
+    @keyframes fall {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* 📱 Mobile Optimierung */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        gap: 25px;
+        height: auto;
+        padding: 30px 15px 60px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 350px;
+        margin: 10px auto;
+        transform: none !important; /* kein Hover-Zoom */
+      }
+
+      .card:hover {
+        transform: none;
+        box-shadow: 0 0 40px #ffd700, 0 0 60px #fff;
+      }
+
+      #intro h1 {
+        font-size: 1.6rem;
+        line-height: 1.3;
+        padding: 0 10px;
+      }
+
+      .name {
+        font-size: 1.4em;
+      }
+
+      .pfp {
+        width: 100px;
+        height: 100px;
+      }
+
+      .tag {
+        width: 50px;
+        height: 50px;
+      }
     }
   </style>
 </head>
 <body>
 
-  
-  <div id="intro">
-    <h1>are you sure...</h1>
+<video id="bg-video" autoplay muted loop>
+  <source src="https://files.catbox.moe/to6xkg.mp4" type="video/mp4">
+</video>
+
+<div id="intro" tabindex="0"><h1>only rich people can open...</h1></div>
+
+<div class="container" id="main">
+  <div class="card">
+    <div class="name-container"><div class="name">flin</div></div>
+    <img class="pfp" src="https://g.top4top.io/p_3532embx91.jpg" alt="flin"/>
+    <div class="quote"></div>
+    <a href="https://t.me/hxrmlol" target="_blank" class="tag">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram"/>
+    </a>
   </div>
 
-  
-  <script>
-    for (let i = 0; i < 120; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.top = Math.random() * 100 + 'vh';
-      particle.style.animationDuration = (8 + Math.random() * 12) + 's';
-      particle.style.transform = `scale(${Math.random() * 2})`;
-      document.body.appendChild(particle);
+  <div class="card">
+    <div class="name-container"><div class="name">vantixt</div></div>
+    <img class="pfp" src="https://a.top4top.io/p_3532rtfts1.jpg" alt="vantixt"/>
+    <div class="quote"></div>
+    <a href="https://t.me/heavencircle" target="_blank" class="tag">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram"/>
+    </a>
+  </div>
+</div>
+
+<audio id="bg-music" loop>
+  <source src="https://files.catbox.moe/fhb6bi.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const intro = document.getElementById("intro");
+  const main = document.getElementById("main");
+  const music = document.getElementById("bg-music");
+  let unlocked = false;
+
+  function createParticles(container, count = 20) {
+    const nameElement = container.querySelector('.name');
+    const rect = nameElement.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const offsetX = rect.left - containerRect.left;
+    const offsetY = rect.top - containerRect.top;
+
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const x = Math.random() * width;
+      const y = Math.random() * height;
+      p.style.left = `${offsetX + x}px`;
+      p.style.top = `${offsetY + y}px`;
+      p.style.setProperty('--x', `${(Math.random() - 0.5) * 20}px`);
+      p.style.setProperty('--y', `${(Math.random() - 0.5) * 20}px`);
+      p.style.animationDuration = (0.8 + Math.random() * 1.2) + 's';
+      container.appendChild(p);
     }
-  </script>
+  }
 
-  <!-- Profiles -->
-  <div class="container" id="main">
-    <div class="profile">
-      <img class="pfp" src="https://f.top4top.io/p_3530i2dh91.jpg" alt="flin" />
-      <div class="username">flin</div>
-      <a href="https://t.me/hxrmlol" target="_blank">
-        <div class="telegram">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
-        </div>
-      </a>
-    </div>
-
-    <div class="profile">
-      <img class="pfp" src="https://a.top4top.io/p_3530u4nmr1.jpg" alt="vantixt" />
-      <div class="username">vantixt</div>
-      <a href="https://t.me/heavencircle" target="_blank">
-        <div class="telegram">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
-        </div>
-      </a>
-    </div>
-
-    <div class="profile">
-      <img class="pfp" src="https://h.top4top.io/p_35300ivxz1.jpg" alt="scount" />
-      <div class="username">scount</div>
-      <a href="https://t.me/maunaue" target="_blank">
-        <div class="telegram">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" />
-        </div>
-      </a>
-    </div>
-  </div>
-
-  
-  <audio id="bg-music" loop>
-    <source src="https://files.catbox.moe/8st39o.mp3" type="audio/mpeg">
-  </audio>
-
-  
-  <script>
-    const intro = document.getElementById('intro');
-    const main = document.getElementById('main');
-    const music = document.getElementById('bg-music');
-    let unlocked = false;
-
-    const start = () => {
-      if (unlocked) return;
-      unlocked = true;
-
-      intro.style.opacity = '0';
-      setTimeout(() => {
-        intro.remove();
-        main.classList.add('show');
-        music.volume = 1;
-        music.play().catch(e => console.warn("Autoplay blockiert:", e));
-      }, 800);
-    };
-
-    window.addEventListener('keydown', start);
-    window.addEventListener('click', start);
-
-    document.addEventListener('click', () => {
-      if (unlocked && music.paused) {
-        music.play().catch(() => {});
-      }
+  const initializeParticles = () => {
+    document.querySelectorAll('.name-container').forEach(container => {
+      container.querySelectorAll('.particle').forEach(p => p.remove());
+      createParticles(container);
     });
-  </script>
+  };
+
+  window.addEventListener('load', initializeParticles);
+
+  const start = () => {
+    if (unlocked) return;
+    unlocked = true;
+    intro.style.opacity = "0";
+    setTimeout(() => {
+      intro.style.display = "none";
+      main.classList.add("show");
+      music.volume = 1;
+      music.play().catch(() => {});
+      initializeParticles();
+    }, 800);
+  };
+
+  intro.addEventListener("click", start);
+  intro.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") start();
+  });
+
+  document.addEventListener("click", () => {
+    if (unlocked && music.paused) music.play().catch(() => {});
+  });
+
+  for (let i = 0; i < 40; i++) { 
+    const d = document.createElement("div");
+    d.className = "dollar";
+    d.textContent = "$";
+    d.style.left = Math.random() * 100 + "vw";
+    d.style.animationDuration = (3 + Math.random() * 5) + "s";
+    d.style.fontSize = (14 + Math.random() * 36) + "px";
+    document.body.appendChild(d);
+  }
+</script>
 
 </body>
 </html>
